@@ -205,7 +205,7 @@
             <mxPoint x="1190" y="800" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="y6-8G1V7oS-iBbTwWy7P-17" parent="1" style="shape=ext;margin=3;double=1;whiteSpace=wrap;html=1;align=center;" value="Group Sessions&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;startTime&lt;/li&gt;&lt;li&gt;duration&amp;nbsp;&lt;/li&gt;&lt;li&gt;creationTime&lt;/li&gt;&lt;li&gt;activity&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="y6-8G1V7oS-iBbTwWy7P-17" parent="1" style="shape=ext;margin=3;double=1;whiteSpace=wrap;html=1;align=center;" value="Group Sessions&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;startTime&lt;/li&gt;&lt;li&gt;duration&amp;nbsp;&lt;/li&gt;&lt;li&gt;creationTime&lt;/li&gt;&lt;li&gt;activity&lt;/li&gt;&lt;li&gt;max atendants&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="155" width="130" x="180" y="660" as="geometry" />
         </mxCell>
         <mxCell id="y6-8G1V7oS-iBbTwWy7P-18" parent="1" style="line;strokeWidth=1;rotatable=0;dashed=0;labelPosition=right;align=left;verticalAlign=middle;spacingTop=0;spacingLeft=6;points=[];portConstraint=eastwest;" value="" vertex="1">

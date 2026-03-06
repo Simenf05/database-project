@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.6.1">
   <diagram name="Page-1" id="_3Gy5CXi7wtjklbdfQQ2">
-    <mxGraphModel dx="2495" dy="876" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2009" dy="621" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -112,13 +112,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="LvD30i04SACGwswD5Ckr-3" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" value="Group session" vertex="1">
-          <mxGeometry height="176" width="160" x="-70" y="346" as="geometry" />
+          <mxGeometry height="206" width="160" x="-70" y="346" as="geometry" />
         </mxCell>
-        <mxCell id="LvD30i04SACGwswD5Ckr-4" parent="LvD30i04SACGwswD5Ckr-3" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;start time&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;duration&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;creation time&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;activity&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;roomId&lt;/div&gt;" vertex="1">
-          <mxGeometry height="144" width="160" y="26" as="geometry" />
+        <mxCell id="LvD30i04SACGwswD5Ckr-4" parent="LvD30i04SACGwswD5Ckr-3" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;start time&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;duration&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;creation time&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;activity&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;roomId&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;max attendants&lt;/div&gt;" vertex="1">
+          <mxGeometry height="174" width="160" y="26" as="geometry" />
         </mxCell>
         <mxCell id="LvD30i04SACGwswD5Ckr-5" parent="LvD30i04SACGwswD5Ckr-3" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" value="Item 3" vertex="1">
-          <mxGeometry height="6" width="160" y="170" as="geometry" />
+          <mxGeometry height="6" width="160" y="200" as="geometry" />
         </mxCell>
         <mxCell id="LvD30i04SACGwswD5Ckr-6" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" value="Instructor" vertex="1">
           <mxGeometry height="96" width="160" x="170" y="310" as="geometry" />
@@ -135,7 +135,8 @@
         <mxCell id="LvD30i04SACGwswD5Ckr-11" edge="1" parent="1" source="LvD30i04SACGwswD5Ckr-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1.008;exitY=0.921;exitDx=0;exitDy=0;exitPerimeter=0;" target="SYfpbUH_UVmoAx-BGYk7-22">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="630" y="505" />
+              <mxPoint x="91" y="530" />
+              <mxPoint x="630" y="530" />
               <mxPoint x="630" y="241" />
             </Array>
             <mxPoint x="650" y="270" as="targetPoint" />
@@ -268,11 +269,11 @@
         <mxCell id="LvD30i04SACGwswD5Ckr-51" edge="1" parent="1" source="LvD30i04SACGwswD5Ckr-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.013;entryY=0.059;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.011;exitY=0.645;exitDx=0;exitDy=0;exitPerimeter=0;" target="LvD30i04SACGwswD5Ckr-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="LvD30i04SACGwswD5Ckr-56" edge="1" parent="1" source="LvD30i04SACGwswD5Ckr-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.997;entryY=0.957;entryDx=0;entryDy=0;entryPerimeter=0;" target="LvD30i04SACGwswD5Ckr-4">
+        <mxCell id="LvD30i04SACGwswD5Ckr-58" edge="1" parent="1" source="LvD30i04SACGwswD5Ckr-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.999;entryY=0.954;entryDx=0;entryDy=0;entryPerimeter=0;" target="LvD30i04SACGwswD5Ckr-4">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="140" y="660" />
-              <mxPoint x="140" y="510" />
+              <mxPoint x="140" y="538" />
             </Array>
           </mxGeometry>
         </mxCell>
