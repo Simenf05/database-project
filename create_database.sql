@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE strikes (
 	timestamp TIMESTAMP,
 	session_time TIMESTAMP,
-	session_room TEXT,
+	session_room INTEGER,
 	user_id INTEGER,
 	PRIMARY KEY (session_time, session_room, user_id), /* skal timestamp være en del av PK? */
 	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id),
@@ -23,7 +23,7 @@ CREATE TABLE group_sessions (
 	activity TEXT,
 	max_attendants INTEGER,
 	room_id INTEGER,
-	PRIMARY KEY (start_time room_id),
+	PRIMARY KEY (start_time, room_id),
 	FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE instructor_for (
 	session_room INTEGER,
 	PRIMARY KEY (staff_id, session_time, session_room),
 	FOREIGN KEY (staff_id) REFERENCES staff(id),
-	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id),
+	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id)
 );
 
 CREATE TABLE centers (
@@ -77,7 +77,7 @@ CREATE TABLE shift (
 	staff_id INTEGER,
 	PRIMARY KEY (start_time, center_id, staff_id),
 	FOREIGN KEY (center_id) REFERENCES centers(id),
-	FOREIGN KEY (staff_if) REFERENCES staff(id)
+	FOREIGN KEY (staff_id) REFERENCES staff(id)
 );
 
 CREATE TABLE facilities (
@@ -94,7 +94,7 @@ CREATE TABLE facility_at_center (
 );
 
 CREATE TABLE rooms (
-	id INTEGER PRIMARY KEY AUTOCINCREMENT,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	center_id INTEGER,
 	FOREIGN KEY (center_id) REFERENCES centers(id)
 );
