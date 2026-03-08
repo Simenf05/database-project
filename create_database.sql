@@ -132,3 +132,59 @@ CREATE TABLE room_booking (
 	FOREIGN KEY (room_id) REFERENCES rooms(id),
 	FOREIGN KEY (club_id) REFERENCES sports_clubs(id)
 );
+
+CREATE TRIGGER staff_double_shift
+BEFORE INSERT ON shifts
+WHEN 
+EXISTS (
+	SELECT 1
+	FROM shifts
+	WHERE staff_id = NEW.staff_id
+	AND NEW.start_time < (start_time + duration)
+	AND (NEW.start_time + NEW.duration) > start_time
+)
+OR
+EXISTS (
+	SELECT 1
+	FROM instructor_for i
+	JOIN group_sessions g
+	ON g.start_time = i.session_time
+	AND g.room_id = i.session_room
+	WHERE i.staff_id = NEW.staff_id
+	AND NEW.start_time < (g.start_time + g.duration)
+	AND (NEW.start_time + NEW.duration) > g.start_time
+)
+BEGIN
+	SELECT RAISE(ABORT, 'Staff already busy during this time.');
+END;
+
+CREATE TRIGGER staff_double_group_session
+BEFORE INSERT ON instructor_for
+WHEN 
+EXISTS (
+	SELECT 1
+	FROM shifts
+	JOIN group_sessions g
+	ON g.start_time = NEW.session_time
+	AND g.room_id = NEW.session_room
+	WHERE shifts.staff_id = NEW.staff_id
+	AND g.start_time < (shifts.start_time + shifts.duration)
+	AND (g.start_time + g.duration) > shifts.start_time
+)
+OR
+EXISTS (
+	SELECT 1
+	FROM instructor_for i
+	JOIN group_sessions g1
+	ON g1.start_time = NEW.session_time
+	AND g1.room_id = NEW.session_room
+	JOIN group_sessions g2
+	ON g2.start_time = i.session_time
+	AND g2.room_id = i.session_room
+	WHERE i.staff_id = NEW.staff_id
+	AND g1.start_time < (g2.start_time + g2.duration)
+	AND (g1.start_time + g1.duration) > g2.start_time
+)
+BEGIN
+	SELECT RAISE(ABORT, 'Staff already busy during this time.');
+END;
