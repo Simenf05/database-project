@@ -11,7 +11,7 @@ CREATE TABLE strikes (
 	session_time TIMESTAMP,
 	session_room INTEGER,
 	user_id INTEGER,
-	PRIMARY KEY (session_time, session_room, user_id), /* skal timestamp være en del av PK? */
+	PRIMARY KEY (session_time, session_room, user_id, timestamp),
 	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
