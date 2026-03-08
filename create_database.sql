@@ -70,12 +70,12 @@ CREATE TABLE centers (
 	closing_time TIME
 );
 
-CREATE TABLE shift (
+CREATE TABLE shifts (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	start_time TIMESTAMP,
 	duration INTERVAL,
 	center_id INTEGER,
 	staff_id INTEGER,
-	PRIMARY KEY (start_time, center_id, staff_id),
 	FOREIGN KEY (center_id) REFERENCES centers(id),
 	FOREIGN KEY (staff_id) REFERENCES staff(id)
 );
