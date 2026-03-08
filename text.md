@@ -15,3 +15,4 @@ The following constraints are not displayed in the ER-diagram:
 - Constraints tied to deadlines. This includes group sessions opening for registration, and deregistration deadline to avoid strikes.
 - Multiple sessions cannot take place in the same room at the same time, and an instructor cannot be instructor in two different sessions at the same time.
 - Limitations on registration based on memberships in sport clubs for relevant group sessions.
+- Limitations on registration based on strikes.
