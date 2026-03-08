@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE strikes (
 	timestamp TIMESTAMP NOT NULL,
 	session_time TIMESTAMP,
-	session_room INTEGERL,
+	session_room INTEGER,
 	user_id INTEGER,
 	PRIMARY KEY (session_time, session_room, user_id, timestamp),
 	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id),
