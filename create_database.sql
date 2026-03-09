@@ -222,3 +222,10 @@ BEGIN
 	INSERT INTO strikes (strike_time, session_time, session_room, user_id)
 	VALUES (CURRENT_TIMESTAMP, OLD.session_time, OLD.session_room, OLD.user_id);
 END;
+
+CREATE TRIGGER registration_too_early
+BEFORE INSERT ON registered
+WHEN NEW.register_time < datetime(NEW.session_time, '-2 days')
+BEGIN
+    SELECT RAISE(ABORT, 'Cannot register more than 48 hours before session');
+END;
