@@ -27,6 +27,7 @@ CREATE TABLE group_sessions (
 	max_attendants INTEGER,
 	room_id INTEGER,
 	club_id INTEGER,
+	description TEXT,
 	PRIMARY KEY (start_time, room_id),
 	FOREIGN KEY (room_id) REFERENCES rooms(id),
 	FOREIGN KEY (club_id) REFERENCES sports_clubs(id),
