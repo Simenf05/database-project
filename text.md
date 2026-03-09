@@ -6,8 +6,6 @@ We assume that facility types are defined as enums.
 
 We made strikes weak, because a strike depends on the existence of the user that got the strike.
 
-We assume that it is possible to register for multiple sessions taking place at the same time.
-
 We assume that staff can have other roles and responsibilities than just instructors. A staff member can for example be stationed in the centers counter.
 
 We separated the registered relation from the attended relation. This could be done as a single relation, but would open the possibility for null values. By introducing a separate relation for keeping track of attendance we increase redundancy, since the attended and registered relation contain similar information, but eliminates the possibility of null values.
@@ -28,4 +26,3 @@ The following constraints are not displayed in the ER-diagram:
 We considered implementing constraints on maximum allowed attendees for spinning sessions based on the number of spin bikes available in the room. We decided not to implement these constraints due to it limiting how instructors structure sessions. It is for example possible to use other equipment in addition to spin bikes and rotate on who uses the bikes.
 
 We have not implemented constraints to limit number of registrations when a sessions max capacity is reached. This is because we want to use the register table to implement a waiting list. We want to do this in the systems frontend.
-ø
