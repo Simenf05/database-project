@@ -3,15 +3,16 @@ CREATE TABLE users (
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
 	mail TEXT NOT NULL UNIQUE,
-	phone_number TEXT
+	phone_number TEXT,
+	CHECK (mail LIKE '%_@__%.__%')
 );
 
 CREATE TABLE strikes (
-	timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	strike_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	session_time TIMESTAMP,
 	session_room INTEGER,
 	user_id INTEGER,
-	PRIMARY KEY (session_time, session_room, user_id, timestamp),
+	PRIMARY KEY (session_time, session_room, user_id, strike_time),
 	FOREIGN KEY (session_time, session_room) REFERENCES group_sessions(start_time, room_id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -103,18 +104,20 @@ CREATE TABLE rooms (
 );
 
 CREATE TABLE treadmills (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	producer TEXT NOT NULL,
 	max_speed INTEGER NOT NULL,
 	max_incline INTEGER NOT NULL,
-	number INTEGER NOT NULL,
-	room_id INTEGER NOT NULL,
+	number INTEGER,
+	room_id INTEGER,
+	PRIMARY KEY (number, room_id),
 	FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
 CREATE TABLE bikes (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	room_id INTEGER NOT NULL,
+	room_id INTEGER,
+	bodybike BOOLEAN NOT NULL,
+	number INTEGER,
+	PRIMARY KEY (room_id, number),
 	FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
@@ -187,4 +190,61 @@ EXISTS (
 )
 BEGIN
 	SELECT RAISE(ABORT, 'Staff already busy during this time.');
+END;
+
+CREATE TRIGGER three_strikes
+BEFORE INSERT ON registered
+WHEN (
+	SELECT COUNT(*)
+	FROM strikes s
+	WHERE s.user_id = NEW.user_id
+	AND s.strike_time >= datetime('now', '-30 days')
+	
+) >= 3
+BEGIN
+	SELECT RAISE(ABORT, ' Cannot attent group session with three strikes');
+END;
+
+CREATE TRIGGER room_double_group_session
+BEFORE INSERT ON group_sessions
+WHEN
+EXISTS (
+	SELECT 1
+	FROM group_sessions g
+	WHERE g.room_id = NEW.room_id
+	AND NEW.start_time < (g.start_time + g.duration)
+	AND (NEW.start_time + NEW.duration) > g.start_time
+)
+OR
+EXISTS (
+	SELECT 1
+	FROM room_booking r
+	WHERE r.room_id = NEW.room_id
+	AND NEW.start_time < (r.start_time + r.duration)
+	AND (NEW.start_time + NEW.duration) > r.start_time
+)
+BEGIN
+	SELECT RAISE(ABORT, 'Room already booked during this time.');
+END;
+
+CREATE TRIGGER room_double_booking
+BEFORE INSERT ON room_booking
+WHEN
+EXISTS (
+	SELECT 1
+	FROM room_booking r
+	WHERE r.room_id = NEW.room_id
+	AND NEW.start_time < (r.start_time + r.duration)
+	AND (NEW.start_time + NEW.duration) > r.start_time
+)
+OR
+EXISTS (
+	SELECT 1
+	FROM group_sessions g
+	WHERE g.room_id = NEW.room_id
+	AND NEW.start_time < (g.start_time + g.duration)
+	AND (NEW.start_time + NEW.duration) > g.start_time
+)
+BEGIN
+	SELECT RAISE(ABORT, 'Room already booked during this time.');
 END;
