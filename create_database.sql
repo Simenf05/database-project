@@ -4,7 +4,9 @@ CREATE TABLE users (
 	last_name TEXT NOT NULL,
 	mail TEXT NOT NULL UNIQUE,
 	phone_number TEXT,
-	CHECK (mail LIKE '%_@__%.__%')
+	member_in_club INTEGER,
+	CHECK (mail LIKE '%_@__%.__%'),
+	FOREIGN KEY (member_in_club) REFERENCES sports_clubs(id)
 );
 
 CREATE TABLE strikes (
@@ -24,8 +26,10 @@ CREATE TABLE group_sessions (
 	activity TEXT,
 	max_attendants INTEGER,
 	room_id INTEGER,
+	club_id INTEGER,
 	PRIMARY KEY (start_time, room_id),
 	FOREIGN KEY (room_id) REFERENCES rooms(id),
+	FOREIGN KEY (club_id) REFERENCES sports_clubs(id),
 	CHECK (start_time > creation_time)
 );
 
@@ -126,16 +130,6 @@ CREATE TABLE sports_clubs (
 	name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE room_booking (
-	start_time TIMESTAMP,
-	duration INTERVAL NOT NULL,
-	room_id INTEGER,
-	club_id INTEGER,
-	PRIMARY KEY (start_time, room_id, club_id),
-	FOREIGN KEY (room_id) REFERENCES rooms(id),
-	FOREIGN KEY (club_id) REFERENCES sports_clubs(id)
-);
-
 CREATE TRIGGER staff_double_shift
 BEFORE INSERT ON shifts
 WHEN 
@@ -163,7 +157,7 @@ END;
 
 CREATE TRIGGER staff_double_group_session
 BEFORE INSERT ON instructor_for
-WHEN 
+WHEN
 EXISTS (
 	SELECT 1
 	FROM shifts
@@ -247,4 +241,12 @@ EXISTS (
 )
 BEGIN
 	SELECT RAISE(ABORT, 'Room already booked during this time.');
+END;
+
+CREATE TRIGGER issue_strike
+AFTER DELETE ON registered 
+WHEN CURRENT_TIMESTAMP > datetime(OLD.start_time '-1 hour')
+BEGIN
+	INSERT INTO strikes (strike_time, session_time, session_room, user_id)
+	VALUES (CURRENT_TIMESTAMP, OLD.session_time, OLD.session_room, OLD.user_id);
 END;
