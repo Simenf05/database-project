@@ -27,7 +27,10 @@ When a table is in BCNF, it is impossible for transitive dependency to occur, me
 The tables 'strikes', 'facility_at_center' and 'instructor_for' is trivial because the primary key is the entire table. 
 
 ## Only one column along with the primary key
-Tables that only include one column and the primary key are also trivial. These tables are 'registered', 'attended', 'rooms', 'bikes', 'sport_clubs', 'room_booking' and 'facilities'.
+Tables that only include one column and the primary key are also trivial. These tables are 'registered', 'attended', 'rooms', 'sport_clubs', 'room_booking' and 'facilities'.
 
-## Users, centers, shifts, staff, treadmills and group sessions
-'shifts', 'centers', 'staff', 'users', 'treadmills' and 'group-sessions' is the BCNF because non of the columns depend on any other column except for the primary key, id.
+## Users, centers, shifts, staff and group sessions
+'shifts', 'centers', 'staff', 'users', 'treadmills' and 'group-sessions' is the BCNF because none of the columns depend on any other column except for the primary key, id.
+
+## Treadmills and bikes
+The 'bikes', and 'treadmill' have a composite primary key, consisting of the 'room_id' and 'number'. All the other columns only depend on the primary key. 
