@@ -24,6 +24,8 @@ The following constraints are not displayed in the ER-diagram:
 - Limitations on registration based on memberships in sport clubs for relevant group sessions.
 - Limitations on registration based on strikes.
 
+![diagram](diagram.png)
+
 ## b) Normal forms
 
 ### 1. normal form
