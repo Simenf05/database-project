@@ -12,13 +12,10 @@ The tables 'strikes', 'facility_at_center' and 'instructor_for' are in the secon
 
 ## Group sessions
 Primary key: 'start_time' and 'room_id'
-Columns 'max_attendants', 'activity', 'creation_time' and 'duration' does not depend on anything other than the entire primary key. For 'max_attendants' doesn't depend on 'room_id' because an instructor can choose how many can attend the group session. 
+Columns 'max_attendants', 'activity', 'creation_time', 'club_id', 'description' and 'duration' does not depend on anything other than the entire primary key. For 'max_attendants' doesn't depend on 'room_id' because an instructor can choose how many can attend the group session. 
 
 ## Registered and Attended
 These tables are essentially the same, but 'registered_time' and 'showed_up' are different columns. Nither depends on anything but the entire primary key.
-
-## Room booking
-The primary key is 'start_time', 'room_id' and 'club_id'. The 'duration' depends on all the columns in the primary key. 
 
 # BCNF
 When a table is in BCNF, it is impossible for transitive dependency to occur, meaning it is also in thrid normal form. Therefore we omit writing about the thrid normal form.
@@ -27,7 +24,10 @@ When a table is in BCNF, it is impossible for transitive dependency to occur, me
 The tables 'strikes', 'facility_at_center' and 'instructor_for' is trivial because the primary key is the entire table. 
 
 ## Only one column along with the primary key
-Tables that only include one column and the primary key are also trivial. These tables are 'registered', 'attended', 'rooms', 'bikes', 'sport_clubs', 'room_booking' and 'facilities'.
+Tables that only include one column and the primary key are also trivial. These tables are 'registered', 'attended', 'rooms', 'sport_clubs' and 'facilities'.
 
-## Users, centers, shifts, staff, treadmills and group sessions
-'shifts', 'centers', 'staff', 'users', 'treadmills' and 'group-sessions' is the BCNF because non of the columns depend on any other column except for the primary key, id.
+## Users, centers, shifts, staff and group sessions
+'shifts', 'centers', 'staff', 'users', 'treadmills' and 'group-sessions' is the BCNF because none of the columns depend on any other column except for the primary key, id.
+
+## Treadmills and bikes
+The 'bikes', and 'treadmill' have a composite primary key, consisting of the 'room_id' and 'number'. All the other columns only depend on the primary key. 
