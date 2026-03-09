@@ -5,3 +5,9 @@ We have implemented this with a trigger that fires on insert to the 'shifts' and
 2. The same question for a user. Can this be solved in the model or must it be done in the software?
 
 We also have a trigger for when inserting to the 'user' table. The trigger checks if the user already is registered for another group session, and aborts the insert if the user already is registered for another group session.
+
+3. From which use case is the exclusion (blacklisting) tested / created? It does not have to be one of the stated use cases.
+
+4. Are statistics something that must be stored explicitly or is it possible to just make queries to get answers? Discuss this.
+
+For many statistics it is possible to use queries to find relevant information from the database. Therefore there is no tables that represent statistics explicitly. To have more statistics available in the database, we could change the registration from deleting rows, to instead be a boolean. That way the database would have statistics for every user that a some point was registered for the group session.
