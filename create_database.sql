@@ -21,7 +21,7 @@ CREATE TABLE strikes (
 
 CREATE TABLE group_sessions (
 	start_time TIMESTAMP,
-	duration INTERVAL NOT NULL,
+	duration INTEGER NOT NULL,
 	creation_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	activity TEXT,
 	max_attendants INTEGER,
@@ -31,7 +31,8 @@ CREATE TABLE group_sessions (
 	PRIMARY KEY (start_time, room_id),
 	FOREIGN KEY (room_id) REFERENCES rooms(id),
 	FOREIGN KEY (club_id) REFERENCES sports_clubs(id),
-	CHECK (start_time > creation_time)
+	CHECK (start_time > creation_time),
+	CHECK (duration > 0)
 );
 
 CREATE TABLE registered (
@@ -82,11 +83,12 @@ CREATE TABLE centers (
 CREATE TABLE shifts (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	start_time TIMESTAMP NOT NULL,
-	duration INTERVAL NOT NULL,
+	duration INTEGER NOT NULL,
 	center_id INTEGER NOT NULL,
 	staff_id INTEGER,
 	FOREIGN KEY (center_id) REFERENCES centers(id),
-	FOREIGN KEY (staff_id) REFERENCES staff(id)
+	FOREIGN KEY (staff_id) REFERENCES staff(id),
+	CHECK (duration > 0)
 );
 
 CREATE TABLE facilities (
@@ -138,8 +140,8 @@ EXISTS (
 	SELECT 1
 	FROM shifts
 	WHERE staff_id = NEW.staff_id
-	AND NEW.start_time < (start_time + duration)
-	AND (NEW.start_time + NEW.duration) > start_time
+	AND NEW.start_time < datetime(start_time, '+' || duration || ' minutes')
+	AND datetime(NEW.start_time, '+' || NEW.duration || ' minutes') > start_time
 )
 OR
 EXISTS (
@@ -149,8 +151,8 @@ EXISTS (
 	ON g.start_time = i.session_time
 	AND g.room_id = i.session_room
 	WHERE i.staff_id = NEW.staff_id
-	AND NEW.start_time < (g.start_time + g.duration)
-	AND (NEW.start_time + NEW.duration) > g.start_time
+	AND NEW.start_time < datetime(g.start_time, '+' || g.duration || ' minutes')
+	AND datetime(NEW.start_time, '+' || NEW.duration || ' minutes') > g.start_time
 )
 BEGIN
 	SELECT RAISE(ABORT, 'Staff already busy during this time.');
@@ -166,8 +168,8 @@ EXISTS (
 	ON g.start_time = NEW.session_time
 	AND g.room_id = NEW.session_room
 	WHERE shifts.staff_id = NEW.staff_id
-	AND g.start_time < (shifts.start_time + shifts.duration)
-	AND (g.start_time + g.duration) > shifts.start_time
+	AND g.start_time < datetime(shifts.start_time, '+' || shifts.duration || ' minutes')
+	AND datetime(g.start_time, '+' || g.duration || ' minutes') > shifts.start_time
 )
 OR
 EXISTS (
@@ -180,8 +182,8 @@ EXISTS (
 	ON g2.start_time = i.session_time
 	AND g2.room_id = i.session_room
 	WHERE i.staff_id = NEW.staff_id
-	AND g1.start_time < (g2.start_time + g2.duration)
-	AND (g1.start_time + g1.duration) > g2.start_time
+	AND g1.start_time < datetime(g2.start_time, '+' || g2.duration || ' minutes')
+	AND datetime(g1.start_time, '+' || g1.duration || ' minutes') > g2.start_time
 )
 BEGIN
 	SELECT RAISE(ABORT, 'Staff already busy during this time.');
@@ -197,48 +199,17 @@ WHEN (
 	
 ) >= 3
 BEGIN
-	SELECT RAISE(ABORT, ' Cannot attent group session with three strikes');
+	SELECT RAISE(ABORT, 'Cannot attend group session with three strikes');
 END;
 
 CREATE TRIGGER room_double_group_session
 BEFORE INSERT ON group_sessions
-WHEN
-EXISTS (
+WHEN EXISTS (
 	SELECT 1
 	FROM group_sessions g
 	WHERE g.room_id = NEW.room_id
-	AND NEW.start_time < (g.start_time + g.duration)
-	AND (NEW.start_time + NEW.duration) > g.start_time
-)
-OR
-EXISTS (
-	SELECT 1
-	FROM room_booking r
-	WHERE r.room_id = NEW.room_id
-	AND NEW.start_time < (r.start_time + r.duration)
-	AND (NEW.start_time + NEW.duration) > r.start_time
-)
-BEGIN
-	SELECT RAISE(ABORT, 'Room already booked during this time.');
-END;
-
-CREATE TRIGGER room_double_booking
-BEFORE INSERT ON room_booking
-WHEN
-EXISTS (
-	SELECT 1
-	FROM room_booking r
-	WHERE r.room_id = NEW.room_id
-	AND NEW.start_time < (r.start_time + r.duration)
-	AND (NEW.start_time + NEW.duration) > r.start_time
-)
-OR
-EXISTS (
-	SELECT 1
-	FROM group_sessions g
-	WHERE g.room_id = NEW.room_id
-	AND NEW.start_time < (g.start_time + g.duration)
-	AND (NEW.start_time + NEW.duration) > g.start_time
+	AND NEW.start_time < datetime(g.start_time, '+' || g.duration || ' minutes')
+	AND datetime(NEW.start_time, '+' || NEW.duration || ' minutes') > g.start_time
 )
 BEGIN
 	SELECT RAISE(ABORT, 'Room already booked during this time.');
@@ -246,7 +217,7 @@ END;
 
 CREATE TRIGGER issue_strike
 AFTER DELETE ON registered 
-WHEN CURRENT_TIMESTAMP > datetime(OLD.start_time '-1 hour')
+WHEN CURRENT_TIMESTAMP > datetime(OLD.session_time, '-1 hour')
 BEGIN
 	INSERT INTO strikes (strike_time, session_time, session_room, user_id)
 	VALUES (CURRENT_TIMESTAMP, OLD.session_time, OLD.session_room, OLD.user_id);
