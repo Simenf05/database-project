@@ -9,6 +9,8 @@ We assume that staff can have other roles and responsibilities than just instruc
 
 We separated the registered relation from the attended relation. This could be done as a single relation, but would open the possibility for null values. By introducing a separate relation for keeping track of attendance we increase redundancy, since the attended and registered relation contain similar information, but eliminates the possibility of null values.
 
+Based on information found on Sit's website we concluded that it was suficient to have openingtimes as an attribute of Center, since it was consistent for all days of the week.
+
 The following constraints are not displayed in the ER-diagram:
 
 - Constraints on maximum number of attendees for each group session.
