@@ -1,5 +1,12 @@
 # Handin 1 database
 
+Group 94
+
+Members:
+- Johannes Garborg Bergslid
+- Simen Fritsvold
+- Tobias Hegge
+
 ## Diagram
 
 
