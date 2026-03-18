@@ -1,1 +1,2 @@
 We assume that booking in usecase 2 reffers to registering for a group session.
+Epost er brukernavn
