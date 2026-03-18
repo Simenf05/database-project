@@ -15,38 +15,54 @@ def session_room_center_join():
 
 def register():
     mail = "ola.normann@mail.no" # "johnny@stud.ntnu.no" # input("Mail: ")
-
     if "%" in mail:
         print("Not a valid mail.")
-        exit()
+        return
 
-    activity = "Spinning" # input("Activity: ")
-    year_and_date = "2026-10-12" # input("Year and date (YYYY-MM-DD): ")
+    activity = "Spin%".replace("*", "%") # input("Activity (* for wildcard): ")
 
-    query = f"SELECT time(start_time), room_id, duration, start_time FROM {session_room_center_join()} WHERE g.activity LIKE ? AND date(g.start_time) = ?"
+    year_and_date = "2026-03-19" # input("Year and date (YYYY-MM-DD): ")
+    if "%" in year_and_date:
+        print("Not a valid date.")
+        return
+
+    query = f"SELECT time(start_time), room_id, duration, start_time, activity FROM {session_room_center_join()} WHERE g.activity LIKE ? AND date(g.start_time) = ?"
 
     cursor.execute(query, (activity, year_and_date,))
     sessions_at_date = cursor.fetchall()
-
-    print("Select your session:")
+    
+    if len(sessions_at_date) < 1:
+        print("No sessions at this date.")
+        return
+    print("Select your session (q to exit):")
 
     while True:
         for i, session in enumerate(sessions_at_date):
-            print(f"{i + 1}: {session}")
+            print(f"{i + 1}: {session[0]} {session[2]} mins {session[4]}")
         try:
-            index = int(input()) - 1
+            value = input("Session number: ")
+            if value in {"exit", "Exit", "q", "Q"}:
+                return
+            index = int(value) - 1
             selected = sessions_at_date[index]
         except:
+            print("Not valid id")
+            print()
             continue;
         break
+
 
     query = "SELECT id FROM users WHERE mail LIKE ?"
     cursor.execute(query, (mail,))
     user_id = cursor.fetchone()
 
     insert_query = "INSERT INTO registered (session_time, session_room, user_id) VALUES (?, ?, ?)"
-    cursor.execute(insert_query, (selected[3], selected[1], user_id[0],))
-    print("Success")
+    try:
+        cursor.execute(insert_query, (selected[3], selected[1], user_id[0],))
+        con.commit()
+        print("Success")
+    except Exception as e:
+        print(str(e))
 
 
 def help():
