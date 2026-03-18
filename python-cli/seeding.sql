@@ -16,7 +16,8 @@ WHERE (
 
 INSERT INTO centers (name, address, opening_time, closing_time)
 VALUES 	('Gløshaugen', 'Chr. Fredriks gate 20', '05:00', '23:59'),
-	('Moholt', 'Moholt almenning 12', '05:00', '23:59');
+	('Moholt', 'Moholt almenning 12', '05:00', '23:59'),
+	('Øya', 'Vangslundsgate 2', '05:00', '23:59');
 
 INSERT INTO rooms (center_id)
 VALUES 	(1),
@@ -31,14 +32,15 @@ VALUES	(1, false, 1),
 INSERT INTO users (first_name, last_name, mail, phone_number, member_in_club)
 VALUES	('Ola', 'Normann', 'ola.normann@mail.no', '12345678', NULL),
 	('Kari', 'Normann', 'kari.normann@mail.no', '87654321', NULL),
-	('Navn', 'Navnesen', 'navn.navnesen@mail.no', '00000000', NULL);
+	('Navn', 'Navnesen', 'navn.navnesen@mail.no', '00000000', NULL),
+	('Johnny', 'Etternavn', 'johnny@stud.ntnu.no', '11111111', NULL);
 
 INSERT INTO staff (first_name, last_name)
 VALUES	('Tre', 'Ner'),
 	('Ins', 'Truktør');
 
 INSERT INTO group_sessions (start_time, duration, activity, max_attendants, room_id, club_id, description)
-VALUES	('2026-10-12 18:00', 120, 'Spinning', 10, 1, null, 'Rommet har 2 sykler, vi bytter på.');
+VALUES	('2026-10-12 18:00', 120, 'Spinn60', 10, 1, null, 'Rommet har 2 sykler, vi bytter på.');
 
 INSERT INTO instructor_for (staff_id, session_time, session_room)
 VALUES	(1, '2026-10-12 18:00', 1);
