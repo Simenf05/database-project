@@ -8,7 +8,10 @@ Members:
 - Tobias Hegge
 
 ## Usage
-To run the project check out the README file. 
+To run the project check out the `README.md` file. 
+
+## Text outputs
+To see the expected text outputs, look in the `outputs.md` file
 
 --- 
 
