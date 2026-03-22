@@ -163,10 +163,6 @@ def schedule():
     start_date = date.fromisocalendar(date.today().year, week_nr, day)
     end_date = date.fromisocalendar(date.today().year, week_nr, 7)
 
-    print(start_date)
-    print(end_date)
-
-   
     query = f"""SELECT activity, description, start_time, duration 
                 FROM group_sessions 
                 WHERE DATE(start_time) >= '{start_date}'
