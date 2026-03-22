@@ -6,4 +6,6 @@ Vi har en constraint som sier at man ikke kan legge til en group_session som har
 We assume that booking in usecase 2 reffers to registering for a group session.
 Epost er brukernavn
 
+We had to implement a new constraint on insertions to the registered table to prevent people from registering for multiple sessions with overlapping session times. The constraint is applied through the user_double_group_session trigger.
+
 For usecase 6 we don't implement any new
