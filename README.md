@@ -8,10 +8,11 @@
 * view the schedule for a given week
 * find the user(s) who attended the most sessions in a month
 
-The app connects to a SQLite database located at:
+The app connects to a SQLite database located in the same directory as the python program:
 
-```bash
-../database.db
+```
+./sit-cli.py
+./database.db
 ```
 
 ---
@@ -20,7 +21,7 @@ The app connects to a SQLite database located at:
 
 * Python 3
 * A SQLite database with the required tables and data
-* The database must be located at `../database.db` relative to the script
+* The database must be located at `./database.db` relative to the script
 
 ---
 

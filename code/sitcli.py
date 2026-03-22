@@ -3,9 +3,12 @@
 import sqlite3
 import calendar
 import sys
+import os
 from datetime import date, datetime, timedelta
 
-con = sqlite3.connect("../database.db")
+database_dir = os.path.dirname(os.path.abspath(__file__))
+
+con = sqlite3.connect(f"{database_dir}/database.db")
 cursor = con.cursor()
 
 def session_room_center_join():
@@ -213,9 +216,6 @@ def most_group_sessions():
     for person in top_sessions_people:
         print(f"{person[3]} {person[4]} has trained {person[0]} times.")
 
-    
-
-
 def help():
     print("""sitcli [COMMAND]
 
@@ -226,7 +226,6 @@ def help():
     most-group-sessions
     help
 """)
-
 
 def main():
     argv = sys.argv
