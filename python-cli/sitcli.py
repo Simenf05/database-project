@@ -38,7 +38,7 @@ def register():
 
     while True:
         for i, session in enumerate(sessions_at_date):
-            print(f"{i + 1}: {session[0]} {session[2]} mins {session[4]}")
+            print(f"{i + 1}: {session[0]} | {session[2]} mins | {session[4]}")
         try:
             value = input("Session number: ")
             if value in {"exit", "Exit", "q", "Q"}:
@@ -63,6 +63,71 @@ def register():
         print("Success")
     except Exception as e:
         print(str(e))
+        text = str(e)
+        if text.startswith("UNIQUE"):
+            print("Already registered for this session.")
+            return
+        print(str(e), end=".\n")
+
+
+def attend():
+    mail = input("Mail: ")
+    if "%" in mail:
+        print("Not a valid mail.")
+        return
+
+    query = f"SELECT start_time, room_id, activity, u.id FROM {user_registered_for_group_sessions()} WHERE u.mail LIKE ?"
+    cursor.execute(query, (mail,))
+    registered_group_sessions = cursor.fetchall()
+    
+    if len(registered_group_sessions) < 1:
+        print("You are not registered for any group sessions.")
+        return
+    print("Select your session to attend (q to exit):")
+
+    while True:
+        for i, session in enumerate(registered_group_sessions):
+            print(f"{i + 1}: {session[2]} | Room: {session[1]} | {session[0]}")
+        try:
+            value = input("Session number: ")
+            if value in {"exit", "Exit", "q", "Q"}:
+                return
+            index = int(value) - 1
+            selected = registered_group_sessions[index]
+        except:
+            print("Not valid id.")
+            print()
+            continue;
+        break
+
+    while True:
+        did_attend_str = input("Did attendant show up (y/n): ")
+        if did_attend_str in {"yes", "y", "YES", "Yes", "Y"}:
+            did_attend = True
+            break
+        elif did_attend_str in {"no", "n", "NO", "No", "N"}:
+            did_attend = False
+            break
+        elif did_attend_str in {"exit", "Exit", "q", "Q"}:
+            return
+        print("Write yes or no.")
+        print()
+
+    insert_query = "INSERT INTO attended (showed_up, session_time, session_room, user_id) VALUES (?, ?, ?, ?)"
+    try:
+        cursor.execute(insert_query, (did_attend, selected[0], selected[1], selected[3],))
+        con.commit()
+        print("Success")
+    except Exception as e:
+        text = str(e)
+        if text.startswith("UNIQUE"):
+            print("Already attended this session.")
+            return
+        print(str(e), end=".\n")
+
+
+def hei():
+    print("hei")
 
 
 def help():
@@ -83,6 +148,12 @@ def main():
     match command:
         case "register":
             register()
+        case "attend":
+            attend()
+        case "hei":
+            hei()
+        case _:
+            help()
 
 if __name__ == "__main__":
     main()
