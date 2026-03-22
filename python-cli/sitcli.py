@@ -8,7 +8,6 @@ from datetime import date, datetime, timedelta
 con = sqlite3.connect("../database.db")
 cursor = con.cursor()
 
-
 def session_room_center_join():
     return "group_sessions AS g INNER JOIN rooms AS r ON (g.room_id = r.id) INNER JOIN centers AS c ON (r.center_id = c.id)"
 
@@ -186,23 +185,34 @@ def schedule():
 
 def most_group_sessions():
     try:
-        month = int(input("Month (1 = Jan, 2 = Feb, etc.): "))
+        year_str = input("Year (2026, 2027, etc.): ")
+        int(year_str)
+        month_str = input("Month (1 = Jan, 2 = Feb, etc.): ")
+        month = int(month_str)
     except Exception as _:
-        print("Month must be a number.")
+        print("Month and year must be a number.")
         return
     if month > 12 or month < 1:
         print("Month must be in the range 1 to 12 inclusive.")
         return
 
     month_name = calendar.month_name[month]
+    if len(month_str) == 1:
+        month_str = f"0{month_str}"
 
-    query = f"SELECT COUNT(*) FROM {user_attendant_join()} WHERE showed_up = TRUE GROUP BY mail"
+    subquery = f"SELECT COUNT(*) AS times, user_id, mail, first_name, last_name FROM {user_attendant_join()} WHERE showed_up = TRUE AND strftime('%m', session_time) = ? AND strftime('%Y', session_time) = ? GROUP BY mail"
+    query = f"SELECT * FROM ({subquery}) WHERE times = ( SELECT MAX(times) FROM ({subquery}) )"
 
-    cursor.execute(query)
+    cursor.execute(query, (month_str, year_str, month_str, year_str,))
     top_sessions_people = cursor.fetchall()
 
+    if len(top_sessions_people) == 0:
+        print(f"No people trained.")
+        return
+
+    print(f"Trained the most in {month_name}:")
     for person in top_sessions_people:
-        print(person)
+        print(f"{person[3]} {person[4]} has trained {person[0]} times.")
 
     
 
