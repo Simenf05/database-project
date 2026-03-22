@@ -1,227 +1,246 @@
+# Database Project CLI
 
-# sitcli
+SQLite-backed command-line app for group session booking and statistics.
 
-`sitcli` is a small command-line tool for managing group training sessions stored in a SQLite database. With this app, you can:
+## Prerequisites
 
-* register a user for a group session
-* mark attendance for a session
-* view the schedule for a given week
-* find the user(s) who attended the most sessions in a month
+- Python 3.10+
+- SQLite3 (`sqlite3` CLI available in terminal)
 
-The app connects to a SQLite database located in the same directory as the python program:
+## DB initialization
 
-```
-./sit-cli.py
-./database.db
-```
-
----
-
-## Requirements
-
-* Python 3
-* A SQLite database with the required tables and data
-* The database must be located at `./database.db` relative to the script
-
----
-
-## Usage
-
-Run the program from the terminal:
+Run from project root:
 
 ```bash
-python3 sitcli.py [COMMAND]
+cd code
+sqlite3 database.db < create_database.sql
+sqlite3 database.db < seeding.sql
 ```
 
-or, if executable:
+## Run help
 
 ```bash
-./sitcli.py [COMMAND]
-```
-
----
-
-## Available Commands
-
-* `register`
-* `attend`
-* `schedule`
-* `most-group-sessions`
-* `help`
-
----
-
-## 1. `register`
-
-Registers a user for a group session.
-
-### Run
-
-```bash
-python3 sitcli.py register
-```
-
-### Input
-
-You will be prompted for:
-
-* `Mail` – the user's email address
-* `Activity` – activity name
-* `Year and date (YYYY-MM-DD)` – session date
-
-### Wildcard Search
-
-You can use `*` as a wildcard in the activity field.
-
-Example:
-
-```text
-Activity (* for wildcard): Yog*
-```
-
-### Example
-
-```text
-Mail: ola@example.com
-Activity (* for wildcard): Spin*
-Year and date (YYYY-MM-DD): 2026-04-15
-Select your session (q to exit):
-1: 18:00:00 | 60 mins | Spinning
-2: 19:30:00 | 45 mins | Spinning Intro
-Session number: 1
-Success
-```
-
-### Possible Errors
-
-* `Not a valid mail.`
-* `Not a valid date.`
-* `No sessions at this date.`
-* `Already registered for this session.`
-* `Cannot register for session in the past.`
-
----
-
-## 2. `attend`
-
-Marks whether a user attended a session they are registered for.
-
-### Run
-
-```bash
-python3 sitcli.py attend
-```
-
-### Input
-
-* `Mail` – the user's email
-* select a session from the list
-* indicate whether the user showed up (`y/n`)
-
-### Example
-
-```text
-Mail: ola@example.com
-Select your session to attend (q to exit):
-1: Spinning | Room: 2 | 2026-04-15 18:00:00
-Session number: 1
-Did attendant show up (y/n): y
-Success
-```
-
-### Possible Errors
-
-* `You are not registered for any group sessions.`
-* `Already attended this session.`
-
----
-
-## 3. `schedule`
-
-Displays all group sessions for a given week and day.
-
-### Run
-
-```bash
-python3 sitcli.py schedule
-```
-
-### Input
-
-* `week number` – ISO week (1–53)
-* `day number` – day of the week (1 = Monday, 7 = Sunday)
-
-### Example
-
-```text
-week number: 16
-Day number (1 is Monday, 7 is Sunday): 3
-Activity: Yoga | description: Morning session | start_time: 2026-04-15 08:00:00 | duration: 60
-Activity: Spinning | description: High intensity | start_time: 2026-04-15 18:00:00 | duration: 45
-```
-
-### Possible Errors
-
-* `Week must be between 1 and 53`
-* `Day must be between 1 and 7`
-* `No sessions found in this time interval`
-
----
-
-## 4. `most-group-sessions`
-
-Shows the user(s) who attended the most sessions in a given month.
-
-### Run
-
-```bash
-python3 sitcli.py most-group-sessions
-```
-
-### Input
-
-* `Year` – e.g. 2026
-* `Month` – 1–12
-
-### Example
-
-```text
-Year (2026, 2027, etc.): 2026
-Month (1 = Jan, 2 = Feb, etc.): 4
-Trained the most in April:
-Ola Nordmann has trained 12 times.
-```
-
-### Possible Errors
-
-* `Month and year must be a number.`
-* `Month must be in the range 1 to 12 inclusive.`
-* `No people trained.`
-
----
-
-## 5. `help`
-
-Displays a short overview of available commands.
-
-```bash
+cd code
 python3 sitcli.py help
 ```
 
+## Commands
+
+### `register`
+Interactive booking flow.
+
+Prompts for:
+- `Mail`
+- `Activity` (supports `*` wildcard)
+- `Year and date` (`YYYY-MM-DD`)
+- Session number from the listed matches
+
+### `attend`
+Interactive attendance registration for previously booked sessions.
+
+Prompts for:
+- `Mail`
+- Session number from your registered sessions
+- Whether the participant showed up (`y`/`n`)
+
+### `schedule`
+Shows sessions for a selected week/day range in the current year.
+
+Prompts for:
+- Week number (`1-53`)
+- Day number (`1-7`, where `1` is Monday)
+
+### `most-group-sessions`
+Shows the user(s) with most attended sessions in a selected month.
+
+Prompts for:
+- Year (for example `2026`)
+- Month (`1-12`)
+
+## Terminal usage examples
+
+```bash
+# show help
+cd code
+python3 sitcli.py help
+
+# book a session
+python3 sitcli.py register
+
+# register attendance
+python3 sitcli.py attend
+
+# show weekly schedule
+python3 sitcli.py schedule
+
+# show monthly top attendee(s)
+python3 sitcli.py most-group-sessions
+```
+
+## Testing use cases (2-8)
+
+Run DB setup first (from project root):
+
+```bash
+cd code
+sqlite3 database.db < create_database.sql
+sqlite3 database.db < seeding.sql
+```
+
+Use case 1 is just the seeding SQL script, so it won't be covered in this section.
+
+### Use case 2: Booking of `Spin60` (CLI)
+
+Use the `register` command.
+
+```bash
+cd code
+python3 sitcli.py register
+```
+
+Because of a constraint in SQL, one cannot attend a group session in the past. We have therefore decided to add some sessions in the next day relative to when the seeding command is run. To test registering, use those sessions. See assumptions section below.
+
+Suggested input:
+
+```text
+Mail: johnny@stud.ntnu.no
+Activity (* for wildcard): Spin60
+Year and date (YYYY-MM-DD): 2026-03-17
+Session number: 1
+```
+
+What to verify:
+
+- A matching session is listed.
+- Booking succeeds with `Success`.
+- If you run the same booking again, you should get an "already registered" error.
+
 ---
 
-## Notes
+### Use case 3: Register attendance for the booking (CLI)
 
-* `%` is not allowed in input (used internally in SQL queries)
-* `*` can be used as a wildcard in activity searches
-* The app uses SQL `LIKE`, allowing flexible matching
-* The database enforces constraints such as:
+Use the `attend` command.
 
-  * unique registrations
-  * no registration for past sessions
+```bash
+cd code
+python3 sitcli.py attend
+```
+
+Suggested input:
+
+```text
+Mail: johnny@stud.ntnu.no
+Session number: 1
+Did attendant show up (y/n): y
+```
+
+What to verify:
+
+- You can select the booked session.
+- Attendance insert succeeds with `Success`.
 
 ---
 
-## Summary
+### Use case 4: Weekly schedule for week 12 (CLI)
 
-`sitcli` is a simple CLI tool for managing training sessions via a SQLite database. It provides basic functionality for registration, attendance tracking, scheduling, and statistics directly from the terminal.
+Use the `schedule` command.
+
+```bash
+cd code
+python3 sitcli.py schedule
+```
+
+Suggested input:
+
+```text
+week number: 12
+Day number (1 is Monday, 7 is Sunday): 1
+```
+
+What to verify:
+
+- Output is sorted by start time.
+- Sessions from all centers are shown in a single merged list.
+
+---
+
+### Use case 5: Personal visit history for Johnny since 2026-01-01 (SQL)
+
+Run the provided query file:
+
+```bash
+cd code
+sqlite3 database.db < johnny_history.sql
+```
+
+What to verify:
+
+- Output includes activity, center, datetime, and duration.
+- Rows are unique (`DISTINCT`).
+
+---
+
+### Use case 6: Blacklisting after three strikes in 30 days (SQL + optional CLI check)
+
+Run the strike test script:
+
+```bash
+cd code
+sqlite3 database.db < test_strikes.sql
+```
+
+What to verify:
+
+- The final registration attempt fails due to the 3-strike rule.
+- Error message should indicate blocked registration when three recent strikes exist.
+
+Optional extra check with CLI:
+
+```bash
+cd code
+python3 sitcli.py register
+```
+
+Try booking for the same blocked user and confirm booking is rejected.
+
+---
+
+### Use case 7: Person(s) with most attended group sessions in a month (CLI)
+
+Use the `most-group-sessions` command.
+
+```bash
+cd code
+python3 sitcli.py most-group-sessions
+```
+
+Suggested input:
+
+```text
+Year (2026, 2027, etc.): 2026
+Month (1 = Jan, 2 = Feb, etc.): 3
+```
+
+What to verify:
+
+- Output shows one or more top users.
+- If there is a tie, all tied users are listed.
+
+---
+
+### Use case 8: Find people who train together (SQL)
+
+Run the provided query file:
+
+```bash
+cd code
+sqlite3 database.db < training_pairs.sql
+```
+
+What to verify:
+
+- Output contains two emails + count of joint sessions.
+- Rows are ordered by number of joint sessions (descending).
+
+---
+ # Assumptions
