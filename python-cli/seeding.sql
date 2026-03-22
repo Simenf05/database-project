@@ -43,7 +43,7 @@ VALUES	('Tre', 'Ner'),
 INSERT INTO group_sessions (start_time, duration, activity, max_attendants, room_id, creation_time, club_id, description)
 VALUES
 (
-    datetime(date('now', '+1 day') || ' 12:00'),
+    datetime(date('now', '+1 day') || ' 17:30'),
     60, 'Spin60', 10, 1, date('now'), null,
     'Rommet har 2 sykler, vi bytter på.'
 ),
@@ -53,7 +53,7 @@ VALUES
     'Rommet har 2 sykler, vi bytter på.'
 ),
 (
-    datetime(date('now', '+1 day') || ' 19:00'),
+    datetime(date('now', '+1 day') || ' 12:00'),
     70, 'Spin70', 10, 2, date('now'), null,
     'Rommet har 2 sykler, vi bytter på.'
 ),
