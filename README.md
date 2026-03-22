@@ -302,11 +302,10 @@ What to verify:
 
 ## Assumptions
 
-Fill in only the project-level assumptions you need.
 
-- **Use case 2 interpretation:** [Booking means registering for a group session]
-- **User identity:** [Email is used as username]
-- **Date/session constraints:** [Group sessions cannot be created in the past]
-- **Seeding behavior:** [Seeding uses near-future dates and resets existing data]
-- **Overlap rule:** [Users cannot register for overlapping group sessions (trigger)]
-- **Use case 6 scope:** [Any notes about blacklisting implementation scope]
+- **Use case 2 interpretation:** We assume the term "booking" refers to registering for a group session.
+- **User identity:** In our schema, we don't have a field for username, we therefore use the users mail as identifier, as this is unique for a given user.
+- **Date/session constraints:** As mentioned earlier in the readme, one cannot register a session in the past. We have therefore added some dynamically added date with the seeding script that sets the date to the next day. Use these to test registering.
+- **Seeding behavior:** Running the seeding script removed all existing data before adding its own. This is to make sure the foreign relations regarding IDs point to the correct counterparts. Because of the dynamically added dates, and constraints in our file, make sure to seed the database before testing to ensure being able to register and attend.
+- **Overlap rule:** The only change we made to the schema is to add a new trigger that aborts any insertions into the registered table, if the user already is registered for another session with times overlapping the new session.
+- **Use case 6 scope:** For usecase 6, we haven't implemented any python code. The behaviour described in the usecase is sufficiently handled from previously made triggers, meaning a quick test using the SQL script mentioned earlier is sufficient to prove the use case is implemented.
