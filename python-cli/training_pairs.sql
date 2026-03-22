@@ -14,6 +14,8 @@ CROSS JOIN
 WHERE (
 	u1.session_time = u2.session_time
 	AND u1.session_room = u2.session_room
+	AND u1.showed_up = TRUE
+	AND u2.showed_up = TRUE
 	AND u1.user_id < u2.user_id
 )
 GROUP BY
