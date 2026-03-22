@@ -58,7 +58,37 @@ VALUES
     'Rommet har 2 sykler, vi bytter på.'
 ),
 ('2026-03-17', 120, 'Spin120', 10, 1, '2026-02-17', null, '120 min spinning'),
-('2026-03-18', 120, 'Spin120-2', 10, 1, '2026-02-18', null, '120 min spinning igjen');
+('2026-03-18', 120, 'Spin120-2', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+(
+    datetime(date('now', '+1 day') || ' 10:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+),
+(
+    datetime(date('now', '+1 day') || ' 11:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+),
+(
+    datetime(date('now', '+1 day') || ' 12:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+),
+(
+    datetime(date('now', '+1 day') || ' 13:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+),
+(
+    datetime(date('now', '+1 day') || ' 14:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+),
+(
+    datetime(date('now', '+1 day') || ' 15:00'),
+    30, 'Spin30', 10, 3, date('now'), null,
+    'Spinning i 30 min'
+);
 
 INSERT INTO instructor_for (staff_id, session_time, session_room)
 VALUES	(1, '2026-10-12 18:00', 1);
