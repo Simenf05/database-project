@@ -189,6 +189,25 @@ BEGIN
 	SELECT RAISE(ABORT, 'Staff already busy during this time.');
 END;
 
+CREATE TRIGGER user_double_group_session
+BEFORE INSERT ON registered
+WHEN EXISTS (
+    SELECT 1
+    FROM registered r
+    JOIN group_sessions g
+      ON g.start_time = r.session_time
+     AND g.room_id = r.session_room
+    JOIN group_sessions new_session
+      ON new_session.start_time = NEW.session_time
+     AND new_session.room_id = NEW.session_room
+    WHERE r.user_id = NEW.user_id
+      AND new_session.start_time < datetime(g.start_time, '+' || g.duration || ' minutes')
+      AND datetime(new_session.start_time, '+' || new_session.duration || ' minutes') > g.start_time
+)
+BEGIN
+    SELECT RAISE(ABORT, 'User already registered for a session during this time interval.');
+END;
+
 CREATE TRIGGER three_strikes
 BEFORE INSERT ON registered
 WHEN (
