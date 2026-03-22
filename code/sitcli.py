@@ -4,7 +4,7 @@ import sqlite3
 import calendar
 import sys
 import os
-from datetime import date, datetime, timedelta
+from datetime import date
 
 database_dir = os.path.dirname(os.path.abspath(__file__))
 
