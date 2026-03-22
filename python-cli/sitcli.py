@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import sqlite3
+import calendar
 import sys
 
 con = sqlite3.connect("../database.db")
@@ -13,18 +14,21 @@ def session_room_center_join():
 def user_registered_for_group_sessions():
     return "group_sessions AS g INNER JOIN registered AS reg ON (g.start_time = reg.session_time AND g.room_id = reg.session_room) INNER JOIN users AS u ON (reg.user_id = u.id)"
 
+def user_attendant_join():
+    return "users AS u INNER JOIN attended AS a ON u.id = a.user_id"
+
 
 # Antagelse: Epost er brukernavn
 
 def register():
-    mail = input("Mail: ") # "ola.normann@mail.no" # "johnny@stud.ntnu.no" # input("Mail: ")
+    mail = input("Mail: ")
     if "%" in mail:
         print("Not a valid mail.")
         return
 
     activity = input("Activity (* for wildcard): ").replace("*", "%") # 
 
-    year_and_date = input("Year and date (YYYY-MM-DD): ") # "2026-03-19" # input("Year and date (YYYY-MM-DD): ")
+    year_and_date = input("Year and date (YYYY-MM-DD): ")
     if "%" in year_and_date:
         print("Not a valid date.")
         return
@@ -138,10 +142,36 @@ def hei():
     print("hei")
 
 
+def most_group_sessions():
+    try:
+        month = int(input("Month (1 = Jan, 2 = Feb, etc.): "))
+    except Exception as _:
+        print("Month must be a number.")
+        return
+    if month > 12 or month < 1:
+        print("Month must be in the range 1 to 12 inclusive.")
+        return
+
+    month_name = calendar.month_name[month]
+
+    query = f"SELECT COUNT(*) FROM {user_attendant_join()} WHERE showed_up = TRUE GROUP BY mail"
+
+    cursor.execute(query)
+    top_sessions_people = cursor.fetchall()
+
+    for person in top_sessions_people:
+        print(person)
+
+    
+
+
 def help():
     print("""sitcli [COMMAND]
+
 [COMMAND]:
-    register""")
+    register
+    attend
+""")
 
 
 def main():
@@ -160,6 +190,8 @@ def main():
             attend()
         case "hei":
             hei()
+        case "most-group-sessions":
+            most_group_sessions()
         case _:
             help()
 
