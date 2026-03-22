@@ -107,20 +107,7 @@ python sitcli.py most-group-sessions
 
 ## Testing use cases (2-8)
 
-Run DB setup first (from project root):
-
-```text
-cd code
-sqlite3 database.db
-```
-
-Then inside the SQLite shell:
-
-```sql
-.read create_database.sql
-.read seeding.sql
-.quit
-```
+Run DB setup first as described above.
 
 Use case 1 is just the seeding SQL script, so it won't be covered in this section.
 
