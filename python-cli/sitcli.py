@@ -153,7 +153,7 @@ def schedule():
 
     while day == 0:
         try:
-            day = int(input("Day number. 1 is Monday, 7 is Sunday"))
+            day = int(input("Day number (1 is Monday, 7 is Sunday): "))
             if day < 1 or day > 7:
                 print("Day must be between 1 and 7")
                 day = 0
