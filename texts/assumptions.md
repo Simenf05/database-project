@@ -8,4 +8,4 @@ Epost er brukernavn
 
 We had to implement a new constraint on insertions to the registered table to prevent people from registering for multiple sessions with overlapping session times. The constraint is applied through the user_double_group_session trigger.
 
-For usecase 6 we don't implement any new
+For usecase 6 we haven't implemented any new features because it is sufficiently covered by our triggers. Therefore we only handle the cases where one tries to register for a session with three strikes, the insertion to the table is aborted, and a message is displayed to the user.
