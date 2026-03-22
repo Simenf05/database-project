@@ -6,6 +6,8 @@ DELETE FROM staff;
 DELETE FROM group_sessions;
 DELETE FROM instructor_for;
 DELETE FROM registered;
+DELETE FROM attended;
+DELETE FROM strikes;
 
 UPDATE SQLITE_SEQUENCE SET seq = 0
 WHERE (
@@ -57,8 +59,11 @@ VALUES
     70, 'Spin70', 10, 2, date('now'), null,
     'Rommet har 2 sykler, vi bytter på.'
 ),
-('2026-03-17', 120, 'Spin120', 10, 1, '2026-02-17', null, '120 min spinning'),
-('2026-03-18', 120, 'Spin120-2', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+('2026-03-17 10:00', 120, 'Spin120', 10, 1, '2026-02-18', null, '120 min spinning'),
+('2026-03-18 10:00', 120, 'Spin120-2', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+('2026-03-19 10:00', 120, 'Spin120-3', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+('2026-03-20 10:00', 120, 'Spin120-4', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+('2026-03-21 10:00', 120, 'Spin120-5', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
 (
     datetime(date('now', '+1 day') || ' 10:00'),
     30, 'Spin30', 10, 3, date('now'), null,
@@ -92,3 +97,17 @@ VALUES
 
 INSERT INTO instructor_for (staff_id, session_time, session_room)
 VALUES	(1, '2026-10-12 18:00', 1);
+
+INSERT INTO registered (register_time, session_room, session_time, user_id)
+VALUES	('2026-03-16 10:00', 1, '2026-03-17 10:00', 4),
+	('2026-03-17 10:00', 1, '2026-03-18 10:00', 4),
+	('2026-03-18 10:00', 1, '2026-03-19 10:00', 4),
+	('2026-03-19 10:00', 1, '2026-03-20 10:00', 4),
+	('2026-03-20 10:00', 1, '2026-03-21 10:00', 4);
+
+INSERT INTO attended (showed_up, session_room, session_time, user_id)
+VALUES	(TRUE, 1, '2026-03-17 10:00', 4),
+	(TRUE, 1, '2026-03-18 10:00', 4),
+	(TRUE, 1, '2026-03-19 10:00', 4),
+	(TRUE, 1, '2026-03-20 10:00', 4),
+	(TRUE, 1, '2026-03-21 10:00', 4);
