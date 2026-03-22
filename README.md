@@ -2,6 +2,27 @@
 
 SQLite-backed command-line app for group session booking and statistics.
 
+## Table of contents
+
+- [Prerequisites](#prerequisites)
+- [DB initialization](#db-initialization)
+- [Run help](#run-help)
+- [Commands](#commands)
+	- [`register`](#register)
+	- [`attend`](#attend)
+	- [`schedule`](#schedule)
+	- [`most-group-sessions`](#most-group-sessions)
+- [Terminal usage examples](#terminal-usage-examples)
+- [Testing use cases (2-8)](#testing-use-cases-2-8)
+	- [Use case 2: Booking of `Spin60` (CLI)](#use-case-2-booking-of-spin60-cli)
+	- [Use case 3: Register attendance for the booking (CLI)](#use-case-3-register-attendance-for-the-booking-cli)
+	- [Use case 4: Weekly schedule for week 12 (CLI)](#use-case-4-weekly-schedule-for-week-12-cli)
+	- [Use case 5: Personal visit history for Johnny since 2026-01-01 (SQL)](#use-case-5-personal-visit-history-for-johnny-since-2026-01-01-sql)
+	- [Use case 6: Blacklisting after three strikes in 30 days (SQL + optional CLI check)](#use-case-6-blacklisting-after-three-strikes-in-30-days-sql--optional-cli-check)
+	- [Use case 7: Person(s) with most attended group sessions in a month (CLI)](#use-case-7-persons-with-most-attended-group-sessions-in-a-month-cli)
+	- [Use case 8: Find people who train together (SQL)](#use-case-8-find-people-who-train-together-sql)
+- [Assumptions](#assumptions)
+
 ## Prerequisites
 
 - Python 3.10+
@@ -11,17 +32,24 @@ SQLite-backed command-line app for group session booking and statistics.
 
 Run from project root:
 
-```bash
+```text
 cd code
-sqlite3 database.db < create_database.sql
-sqlite3 database.db < seeding.sql
+sqlite3 database.db
+```
+
+Then inside the SQLite shell:
+
+```sql
+.read create_database.sql
+.read seeding.sql
+.quit
 ```
 
 ## Run help
 
-```bash
+```text
 cd code
-python3 sitcli.py help
+python sitcli.py help
 ```
 
 ## Commands
@@ -59,32 +87,39 @@ Prompts for:
 
 ## Terminal usage examples
 
-```bash
+```text
 # show help
 cd code
-python3 sitcli.py help
+python sitcli.py help
 
 # book a session
-python3 sitcli.py register
+python sitcli.py register
 
 # register attendance
-python3 sitcli.py attend
+python sitcli.py attend
 
 # show weekly schedule
-python3 sitcli.py schedule
+python sitcli.py schedule
 
 # show monthly top attendee(s)
-python3 sitcli.py most-group-sessions
+python sitcli.py most-group-sessions
 ```
 
 ## Testing use cases (2-8)
 
 Run DB setup first (from project root):
 
-```bash
+```text
 cd code
-sqlite3 database.db < create_database.sql
-sqlite3 database.db < seeding.sql
+sqlite3 database.db
+```
+
+Then inside the SQLite shell:
+
+```sql
+.read create_database.sql
+.read seeding.sql
+.quit
 ```
 
 Use case 1 is just the seeding SQL script, so it won't be covered in this section.
@@ -93,9 +128,9 @@ Use case 1 is just the seeding SQL script, so it won't be covered in this sectio
 
 Use the `register` command.
 
-```bash
+```text
 cd code
-python3 sitcli.py register
+python sitcli.py register
 ```
 
 Because of a constraint in SQL, one cannot attend a group session in the past. We have therefore decided to add some sessions in the next day relative to when the seeding command is run. To test registering, use those sessions. See assumptions section below.
@@ -121,9 +156,9 @@ What to verify:
 
 Use the `attend` command.
 
-```bash
+```text
 cd code
-python3 sitcli.py attend
+python sitcli.py attend
 ```
 
 Suggested input:
@@ -145,9 +180,9 @@ What to verify:
 
 Use the `schedule` command.
 
-```bash
+```text
 cd code
-python3 sitcli.py schedule
+python sitcli.py schedule
 ```
 
 Suggested input:
@@ -168,9 +203,16 @@ What to verify:
 
 Run the provided query file:
 
-```bash
+```text
 cd code
-sqlite3 database.db < johnny_history.sql
+sqlite3 database.db
+```
+
+Then inside the SQLite shell:
+
+```sql
+.read johnny_history.sql
+.quit
 ```
 
 What to verify:
@@ -184,9 +226,16 @@ What to verify:
 
 Run the strike test script:
 
-```bash
+```text
 cd code
-sqlite3 database.db < test_strikes.sql
+sqlite3 database.db
+```
+
+Then inside the SQLite shell:
+
+```sql
+.read test_strikes.sql
+.quit
 ```
 
 What to verify:
@@ -196,9 +245,9 @@ What to verify:
 
 Optional extra check with CLI:
 
-```bash
+```text
 cd code
-python3 sitcli.py register
+python sitcli.py register
 ```
 
 Try booking for the same blocked user and confirm booking is rejected.
@@ -209,9 +258,9 @@ Try booking for the same blocked user and confirm booking is rejected.
 
 Use the `most-group-sessions` command.
 
-```bash
+```text
 cd code
-python3 sitcli.py most-group-sessions
+python sitcli.py most-group-sessions
 ```
 
 Suggested input:
@@ -232,9 +281,16 @@ What to verify:
 
 Run the provided query file:
 
-```bash
+```text
 cd code
-sqlite3 database.db < training_pairs.sql
+sqlite3 database.db
+```
+
+Then inside the SQLite shell:
+
+```sql
+.read training_pairs.sql
+.quit
 ```
 
 What to verify:
@@ -243,4 +299,14 @@ What to verify:
 - Rows are ordered by number of joint sessions (descending).
 
 ---
- # Assumptions
+
+## Assumptions
+
+Fill in only the project-level assumptions you need.
+
+- **Use case 2 interpretation:** [Booking means registering for a group session]
+- **User identity:** [Email is used as username]
+- **Date/session constraints:** [Group sessions cannot be created in the past]
+- **Seeding behavior:** [Seeding uses near-future dates and resets existing data]
+- **Overlap rule:** [Users cannot register for overlapping group sessions (trigger)]
+- **Use case 6 scope:** [Any notes about blacklisting implementation scope]
