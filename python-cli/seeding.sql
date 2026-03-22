@@ -41,7 +41,7 @@ VALUES	('Tre', 'Ner'),
 	('Ins', 'Truktør');
 
 INSERT INTO group_sessions (start_time, duration, activity, max_attendants, room_id, club_id, description)
-VALUES	('2026-03-19 18:00', 120, 'Spinn60', 10, 1, null, 'Rommet har 2 sykler, vi bytter på.'),
+VALUES	('2026-03-17 18:30', 120, 'Spinn60', 10, 1, null, 'Rommet har 2 sykler, vi bytter på.'),
 	('2026-03-19 18:00', 120, 'Spinn70', 10, 2, null, 'Rommet har 2 sykler, vi bytter på.'),
 	('2026-03-29 18:00', 120, 'Spinn70', 10, 2, null, 'Rommet har 2 sykler, vi bytter på.');
 
