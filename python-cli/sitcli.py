@@ -1,8 +1,9 @@
-#!/bin/env python
+#!/bin/env python3
 
 import sqlite3
 import calendar
 import sys
+from datetime import date, datetime, timedelta
 
 con = sqlite3.connect("../database.db")
 cursor = con.cursor()
@@ -138,8 +139,49 @@ def attend():
         print(str(e), end=".\n")
 
 
-def hei():
-    print("hei")
+def schedule():
+    week_nr = 0
+    day = 0
+    
+    while week_nr == 0:
+        try:
+            week_nr = int(input("week number: "))
+            if week_nr < 1 or week_nr > 53:
+                print("Week must be between 1 and 53")
+                week_nr = 0
+        except:
+            print("Week number has to be a numeric value")
+
+    while day == 0:
+        try:
+            day = int(input("Day number. 1 is Monday, 7 is Sunday"))
+            if day < 1 or day > 7:
+                print("Day must be between 1 and 7")
+                day = 0
+        except:
+            print("Day number has to be a numeric value")
+    
+    start_date = date.fromisocalendar(date.today().year, week_nr, day)
+    end_date = date.fromisocalendar(date.today().year, week_nr, 7)
+
+   
+    query = f"""SELECT activity, room_id, description, start_time, duration 
+               FROM group_sessions 
+               WHERE start_time >= {start_date}
+               AND start_time <= {end_date}
+               ORDER BY start_time ASC"""
+    
+    cursor.execute(query)
+    group_sessions = cursor.fetchall()
+
+    if len(group_sessions) < 1:
+        print("No sessions found in this time interval")
+        return
+
+    for i, session in enumerate(group_sessions):
+            print(f"Activity: {session[0]} | Room ID: {session[1]} | description: {session[2]} | start_time: {session[3]} | duration: {session[4]}")
+    
+    return  
 
 
 def most_group_sessions():
@@ -192,6 +234,8 @@ def main():
             hei()
         case "most-group-sessions":
             most_group_sessions()
+        case "schedule":
+            schedule()
         case _:
             help()
 
