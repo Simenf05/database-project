@@ -10,18 +10,21 @@ cursor = con.cursor()
 def session_room_center_join():
     return "group_sessions AS g INNER JOIN rooms AS r ON (g.room_id = r.id) INNER JOIN centers AS c ON (r.center_id = c.id)"
 
+def user_registered_for_group_sessions():
+    return "group_sessions AS g INNER JOIN registered AS reg ON (g.start_time = reg.session_time AND g.room_id = reg.session_room) INNER JOIN users AS u ON (reg.user_id = u.id)"
+
 
 # Antagelse: Epost er brukernavn
 
 def register():
-    mail = "ola.normann@mail.no" # "johnny@stud.ntnu.no" # input("Mail: ")
+    mail = input("Mail: ")
     if "%" in mail:
         print("Not a valid mail.")
         return
 
-    activity = "Spin%".replace("*", "%") # input("Activity (* for wildcard): ")
+    activity = input("Activity (* for wildcard): ").replace("*", "%")
 
-    year_and_date = "2026-03-19" # input("Year and date (YYYY-MM-DD): ")
+    year_and_date = input("Year and date (YYYY-MM-DD): ")
     if "%" in year_and_date:
         print("Not a valid date.")
         return
@@ -46,7 +49,7 @@ def register():
             index = int(value) - 1
             selected = sessions_at_date[index]
         except:
-            print("Not valid id")
+            print("Not valid id.")
             print()
             continue;
         break
@@ -62,12 +65,29 @@ def register():
         con.commit()
         print("Success")
     except Exception as e:
-        print(str(e))
+        text = str(e)
+        if text.startswith("UNIQUE"):
+            print("Already registered for this session.")
+            return
+        print(str(e), end=".\n")
+
+
+def attend():
+    mail = input("Mail: ")
+    if "%" in mail:
+        print("Not a valid mail.")
+        return
+
+    query = f"SELECT * FROM {user_registered_for_group_sessions()} WHERE u.mail LIKE ?"
+
+    cursor.execute(query, (mail,))
+
+    print(cursor.fetchall())
+
 
 
 def help():
     print("""sitcli [COMMAND]
-[COMMAND]:
     register""")
 
 
@@ -83,6 +103,10 @@ def main():
     match command:
         case "register":
             register()
+        case "attend":
+            attend()
+        case _:
+            help()
 
 if __name__ == "__main__":
     main()
