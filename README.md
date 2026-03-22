@@ -309,3 +309,9 @@ What to verify:
 - **Seeding behavior:** Running the seeding script removed all existing data before adding its own. This is to make sure the foreign relations regarding IDs point to the correct counterparts. Because of the dynamically added dates, and constraints in our file, make sure to seed the database before testing to ensure being able to register and attend.
 - **Overlap rule:** The only change we made to the schema is to add a new trigger that aborts any insertions into the registered table, if the user already is registered for another session with times overlapping the new session.
 - **Use case 6 scope:** For usecase 6, we haven't implemented any python code. The behaviour described in the usecase is sufficiently handled from previously made triggers, meaning a quick test using the SQL script mentioned earlier is sufficient to prove the use case is implemented.
+
+---
+
+## AI-declaration
+
+- See [texts/AI-declaration.md](texts/AI-declaration.md)
