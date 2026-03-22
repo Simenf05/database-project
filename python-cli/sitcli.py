@@ -222,6 +222,9 @@ def help():
 [COMMAND]:
     register
     attend
+    schedule
+    most-group-sessions
+    help
 """)
 
 
@@ -239,8 +242,6 @@ def main():
             register()
         case "attend":
             attend()
-        case "hei":
-            hei()
         case "most-group-sessions":
             most_group_sessions()
         case "schedule":
