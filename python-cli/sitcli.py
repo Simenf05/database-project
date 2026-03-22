@@ -177,7 +177,7 @@ def schedule():
         return
 
     for i, session in enumerate(group_sessions):
-            print(f"Activity: {session[0]} | description: {session[1]} | start_time: {session[2]} | duration: {session[3]}")
+            print(f"{session[0]} | {session[1]} | {session[2]} | duration: {session[3]}")
     
     return  
 
