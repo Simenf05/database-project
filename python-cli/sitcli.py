@@ -17,14 +17,14 @@ def user_registered_for_group_sessions():
 # Antagelse: Epost er brukernavn
 
 def register():
-    mail = "ola.normann@mail.no" # "johnny@stud.ntnu.no" # input("Mail: ")
+    mail = input("Mail: ") # "ola.normann@mail.no" # "johnny@stud.ntnu.no" # input("Mail: ")
     if "%" in mail:
         print("Not a valid mail.")
         return
 
-    activity = "Spin%".replace("*", "%") # input("Activity (* for wildcard): ")
+    activity = input("Activity (* for wildcard): ").replace("*", "%") # 
 
-    year_and_date = "2026-03-19" # input("Year and date (YYYY-MM-DD): ")
+    year_and_date = input("Year and date (YYYY-MM-DD): ") # "2026-03-19" # input("Year and date (YYYY-MM-DD): ")
     if "%" in year_and_date:
         print("Not a valid date.")
         return
@@ -65,10 +65,12 @@ def register():
         con.commit()
         print("Success")
     except Exception as e:
-        print(str(e))
         text = str(e)
         if text.startswith("UNIQUE"):
             print("Already registered for this session.")
+            return
+        if "register_time < session_time" in text:
+            print("Cannot register for session in the past.")
             return
         print(str(e), end=".\n")
 
@@ -125,6 +127,9 @@ def attend():
         text = str(e)
         if text.startswith("UNIQUE"):
             print("Already attended this session.")
+            return
+        if "register_time < session_time" in text:
+            print("Cannot register for session in the past.")
             return
         print(str(e), end=".\n")
 

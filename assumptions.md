@@ -6,4 +6,4 @@ Vi har en constraint som sier at man ikke kan legge til en group_session som har
 We assume that booking in usecase 2 reffers to registering for a group session.
 Epost er brukernavn
 
-For usecase 6 we don't implement any 
+For usecase 6 we don't implement any new
