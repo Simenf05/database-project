@@ -163,12 +163,15 @@ def schedule():
     start_date = date.fromisocalendar(date.today().year, week_nr, day)
     end_date = date.fromisocalendar(date.today().year, week_nr, 7)
 
+    print(start_date)
+    print(end_date)
+
    
-    query = f"""SELECT activity, room_id, description, start_time, duration 
-               FROM group_sessions 
-               WHERE start_time >= {start_date}
-               AND start_time <= {end_date}
-               ORDER BY start_time ASC"""
+    query = f"""SELECT activity, description, start_time, duration 
+                FROM group_sessions 
+                WHERE DATE(start_time) >= '{start_date}'
+                AND DATE(start_time) <= '{end_date}'
+                ORDER BY start_time ASC"""
     
     cursor.execute(query)
     group_sessions = cursor.fetchall()
@@ -178,7 +181,7 @@ def schedule():
         return
 
     for i, session in enumerate(group_sessions):
-            print(f"Activity: {session[0]} | Room ID: {session[1]} | description: {session[2]} | start_time: {session[3]} | duration: {session[4]}")
+            print(f"Activity: {session[0]} | description: {session[1]} | start_time: {session[2]} | duration: {session[3]}")
     
     return  
 
