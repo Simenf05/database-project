@@ -64,6 +64,7 @@ VALUES
 ('2026-03-19 10:00', 120, 'Spin120-3', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
 ('2026-03-20 10:00', 120, 'Spin120-4', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
 ('2026-03-21 10:00', 120, 'Spin120-5', 10, 1, '2026-02-18', null, '120 min spinning igjen'),
+('2026-03-17 18:30', 60, 'Spin60', 10, 1, '2026-02-15', null, '60 min spinning'),
 (
     datetime(date('now', '+1 day') || ' 10:00'),
     30, 'Spin30', 10, 3, date('now'), null,
