@@ -1,4 +1,5 @@
 # Use case 2
+```
 Mail: johnny@stud.ntnu.no
 Activity (* for wildcard): *
 Year and date (YYYY-MM-DD): 2026-03-23
@@ -14,7 +15,9 @@ Select your session (q to exit):
 9: 15:00:00 | 30 mins | Spin30
 Session number: 1
 Success
+```
 
+```
 Mail: johnny@stud.ntnu.no
 Activity (* for wildcard): *
 Year and date (YYYY-MM-DD): 2026-03-23
@@ -30,8 +33,10 @@ Select your session (q to exit):
 9: 15:00:00 | 30 mins | Spin30
 Session number: 1
 User already registered for a session during this time interval..
+```
 
 # Use case 3
+```
 Mail: johnny@stud.ntnu.no
 Select your session to attend (q to exit):
 1: Spin120 | Room: 1 | 2026-03-17 10:00
@@ -43,8 +48,10 @@ Select your session to attend (q to exit):
 Session number: 6
 Did attendant show up (y/n): y
 Success
+```
 
 # Use case 4
+```
 week number: 12
 Day number (1 is Monday, 7 is Sunday): 1
 Activity: Spin120 | description: 120 min spinning | start_time: 2026-03-17 10:00 | duration: 120
@@ -53,8 +60,10 @@ Activity: Spin120-2 | description: 120 min spinning igjen | start_time: 2026-03-
 Activity: Spin120-3 | description: 120 min spinning igjen | start_time: 2026-03-19 10:00 | duration: 120
 Activity: Spin120-4 | description: 120 min spinning igjen | start_time: 2026-03-20 10:00 | duration: 120
 Activity: Spin120-5 | description: 120 min spinning igjen | start_time: 2026-03-21 10:00 | duration: 120
+```
 
 # Use case 5
+```
 +-----------+------------------------------------+------------+---------------------+----------+
 | activity  |            description             |    name    |    session_time     | duration |
 +-----------+------------------------------------+------------+---------------------+----------+
@@ -65,17 +74,23 @@ Activity: Spin120-5 | description: 120 min spinning igjen | start_time: 2026-03-
 | Spin120-5 | 120 min spinning igjen             | Gløshaugen | 2026-03-21 10:00    | 120      |
 | Spin60    | Rommet har 2 sykler, vi bytter på. | Gløshaugen | 2026-03-23 17:30:00 | 60       |
 +-----------+------------------------------------+------------+---------------------+----------+
+```
 
 # Use case 6
+```
 Runtime error near line 8: Cannot attend group session with three strikes (19)
+```
 
 # Use case 7
+```
 Year (2026, 2027, etc.): 2026
 Month (1 = Jan, 2 = Feb, etc.): 3
 Trained the most in March:
 Johnny Etternavn has trained 6 times.
+```
 
 # Use case 8
+```
 +----------------------+----------------------+------------+
 |        mail1         |        mail2         | occurences |
 +----------------------+----------------------+------------+
@@ -83,3 +98,4 @@ Johnny Etternavn has trained 6 times.
 | ola.normann@mail.no  | kari.normann@mail.no | 2          |
 | kari.normann@mail.no | johnny@stud.ntnu.no  | 2          |
 +----------------------+----------------------+------------+
+```
