@@ -10,6 +10,9 @@ cursor = con.cursor()
 def session_room_center_join():
     return "group_sessions AS g INNER JOIN rooms AS r ON (g.room_id = r.id) INNER JOIN centers AS c ON (r.center_id = c.id)"
 
+def user_registered_for_group_sessions():
+    return "group_sessions AS g INNER JOIN registered AS reg ON (g.start_time = reg.session_time AND g.room_id = reg.session_room) INNER JOIN users AS u ON (reg.user_id = u.id)"
+
 
 # Antagelse: Epost er brukernavn
 
