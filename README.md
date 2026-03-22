@@ -127,7 +127,7 @@ Suggested input:
 ```text
 Mail: johnny@stud.ntnu.no
 Activity (* for wildcard): Spin60
-Year and date (YYYY-MM-DD): 2026-03-17
+Year and date (YYYY-MM-DD): 2026-03-17  // Change this to one day after current date
 Session number: 1
 ```
 
@@ -152,7 +152,7 @@ Suggested input:
 
 ```text
 Mail: johnny@stud.ntnu.no
-Session number: 1
+Session number: 1  // Use the registration from use case 2, likely nr 6
 Did attendant show up (y/n): y
 ```
 
